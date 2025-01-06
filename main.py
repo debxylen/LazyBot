@@ -25,7 +25,6 @@ from dotenv import load_dotenv
 # Load environment variables from .env file (for bot token)
 load_dotenv()
 
-# Get the bot token
 BOT_TOKEN = os.getenv("TOKEN")
 if not BOT_TOKEN:
     raise ValueError("No TOKEN found in the environment variables or .env file.")
@@ -36,12 +35,6 @@ client = MongoClient(mongo_uri)
 _mcet = time.time()
 print("Connected to Mongo atlas in %.2fs."%(_mcet - _mcst))
 
-# Bot intents
-##intents = discord.Intents.default()
-##intents.messages = True
-##intents.message_content = True  # Needed for message content access
-##intents.guilds = True
-##intents.members = True  # Needed for member information
 
 # Initialize the bot
 _bist = time.time()
@@ -57,10 +50,10 @@ def update_count(collection_name: str, username: str, count: int = 1):
     :param username: The username whose count to increment.
     :param count: The number to increment (default is 1).
     """
-    db = client["CommandCounts"]  # Replace <dbname> with your database name
+    db = client["CommandCounts"]
     collection = db[collection_name]
 
-    # Use MongoDB's `update_one` with upsert to update or create the entry
+    # `update_one` with upsert to update or create the entry
     result = collection.update_one(
         {"username": username},
         {"$inc": {"count": count}},
@@ -332,7 +325,7 @@ async def check_birthdays():
     birthdays = client["miscellaneous"]["birthdays"].find({"day": today})
 
     # Get the announcement channel
-    channel = bot.get_channel(1312083452077801524)  # Replace <CHANNEL_ID> with your announcement channel ID
+    channel = bot.get_channel(1312083452077801524)  ######################################################################################
 
     # Send birthday wishes
     for user in birthdays:
@@ -351,7 +344,7 @@ async def before_check_birthdays():
     await bot.wait_until_ready()
     
 async def get_leaderboard(action: str):
-    # Access the database and collection
+
     db = client["CommandCounts"]
     collection = db[action]
     
@@ -560,5 +553,5 @@ async def kick(ctx, user: discord.Member = None):
     await perform_action(ctx, "kick", user)
 
 
-# Run the bot
+# self explanatory
 bot.run(BOT_TOKEN)

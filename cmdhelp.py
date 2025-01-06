@@ -60,6 +60,7 @@ class Button(discord.ui.Button):
             await interaction.response.edit_message(embed=embed, view=view)
 
 view = None
+
 class HelpCommand(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -87,4 +88,3 @@ class HelpCommand(commands.Cog):
             view.add_item(button)
         
         await ctx.send(embed=embed, view=view)
-	
