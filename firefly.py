@@ -13,7 +13,7 @@ def update_count(collection_name: str, username: str, count: int = 1):
     :param username: The username whose count to increment.
     :param count: The number to increment (default is 1).
     """
-    db = client["CommandCounts"]  # Replace <dbname> with your database name
+    db = client["CommandCounts"] 
     collection = db[collection_name]
 
     # Use MongoDB's `update_one` with upsert to update or create the entry
