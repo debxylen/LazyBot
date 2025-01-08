@@ -34,5 +34,6 @@ def get_gif(tags, limit=100):
     filtered_gifs.extend(predefined_gifs[tags[1]])
     # Convert to set and then to list to remove duplicates for absolutely no reason
     unique_gifs = list(set(filtered_gifs))
+    # for i in unique_gifs: print(i)
     # Randomly choose one GIF
     return random.choice(unique_gifs)

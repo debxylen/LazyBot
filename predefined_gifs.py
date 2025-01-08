@@ -69,4 +69,14 @@ gifs = {
         "https://media.tenor.com/f3ZQlg1--pUAAAAM/alya-sometimes-hides-her-feelings-in-russian-alya.gif",
         "https://media.tenor.com/YfqM8h3_6NEAAAAM/rin-anime.gif",
     ],
+    "slap": [
+        "https://media1.tenor.com/m/cpWuWnOU64MAAAAC/bofetada.gif",
+        "https://media1.tenor.com/m/Sv8LQZAoQmgAAAAd/chainsaw-man-csm.gif",
+        "https://media1.tenor.com/m/MXZGFeabIIwAAAAd/taiga-toradora.gif",
+    ],
+    "stab": [
+        "https://media1.tenor.com/m/Z_2nHtfScl0AAAAd/higurashi-when-they-cry.gif",
+        "https://media1.tenor.com/m/CWsbJDl70tsAAAAd/shimoneta.gif",
+        "https://media1.tenor.com/m/b7UhYIWfmXEAAAAd/yumeko-mirai-nikki.gif",
+    ],
 }
