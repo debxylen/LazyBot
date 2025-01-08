@@ -295,7 +295,8 @@ async def set_birthday(ctx, date: str):
         # Validate the date format
         datetime.strptime(date, "%d-%m")
     except ValueError:
-        await ctx.send("Invalid date format! Please use `DD-MM`.")
+        await ctx.message.delete()
+        await ctx.send("Invalid date format! Please use `DD-MM`.", delete_after=3)
         return
 
     # Save the birthday in MongoDB
@@ -307,7 +308,14 @@ async def set_birthday(ctx, date: str):
 
     await ctx.message.delete()
     await ctx.send(f"🎉 {ctx.author.mention}, your birthday has been saved!", delete_after=3)
-
+    today = datetime.now(timezone("Asia/Kolkata")).strftime("%d-%m")
+    if date == today:
+        global wished_birthdays
+        user_id = ctx.author.id
+        user_name = ctx.author.name
+        today_human = datetime.strptime(today, "%m-%d").strftime("%-d %B")
+        await bot.get_channel(1298215054633861124).send(f"🎂 <@&1298162816922161162>, It's <@{user_id}>'s ({user_name}) birthday ({today_human} in IST)! 🎉🥳")
+        wished_birthdays.append(user_id)
 
 wished_birthdays = []
 
@@ -320,18 +328,20 @@ async def check_birthdays():
     global wished_birthdays
     # Get the current date in UTC in DD-MM format
     today = datetime.now(timezone("Asia/Kolkata")).strftime("%d-%m")
+    today_human = datetime.strptime(today, "%d-%m").strftime("%-d %B")
 
     # Find users whose birthday matches today's date
     birthdays = client["miscellaneous"]["birthdays"].find({"day": today})
 
     # Get the announcement channel
     channel = bot.get_channel(1298215054633861124)
-
+    
     # Send birthday wishes
     for user in birthdays:
         user_id = user["user_id"]
+        user_name = bot.get_user(user_id).name
         if user_id not in wished_birthdays:
-            await channel.send(f"🎂 It's <@{user_id}> birthday ({today} in IST)! 🎉🥳")
+            await channel.send(f"🎂 <@&1298162816922161162>, It's <@{user_id}>'s ({user_name}) birthday ({today_human} in IST)! 🎉🥳")
             wished_birthdays.append(user_id)
 
 
