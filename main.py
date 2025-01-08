@@ -25,6 +25,8 @@ from dotenv import load_dotenv
 # Load environment variables from .env file (for bot token)
 load_dotenv()
 
+
+
 BOT_TOKEN = os.getenv("TOKEN")
 if not BOT_TOKEN:
     raise ValueError("No TOKEN found in the environment variables or .env file.")
@@ -40,6 +42,26 @@ print("Connected to Mongo atlas in %.2fs."%(_mcet - _mcst))
 _bist = time.time()
 bot = commands.Bot(command_prefix=["F ", "f "], intents=discord.Intents.all(), case_insensitive=True)
 bot.remove_command('help')
+
+
+def updateGifStatus(startingPoint, currentPage, NextPage):
+    db = client["Gifs"]
+    collection = db["gifStatus"]
+
+    # Update the document in the database
+    result = collection.update_one(
+        {"_id": "677fe2d367a001d1ade3f769"},  # Match the document by startingPoint
+        {
+            "$set": {
+                "currentPage": currentPage,
+                "nextPage": NextPage,
+                "startingPoint": startingPoint
+            },
+           
+        },
+        upsert=True  # Create the document if it doesn't exist
+    )
+
 
 # Function to update or create entry in the collection
 def update_count(collection_name: str, username: str, count: int = 1):
@@ -60,6 +82,19 @@ def update_count(collection_name: str, username: str, count: int = 1):
         upsert=True
     )
 
+
+
+async def _getCurrentGifStatus():
+    global currentGif
+    db = client["Gifs"]
+    collection = db["gifStatus"]
+    result =[]
+    data = collection.find()  # Convert cursor to list
+    for i, user in enumerate(data, start=1):
+        result.append(user)
+    currentGif = result[0] if result else None  # Update the global variable
+    return currentGif
+
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
@@ -70,6 +105,9 @@ async def on_ready():
     check_birthdays.start()
     _biet = time.time()
     print("Bot set up in %.2fs."%(_biet - _bist))
+
+    await _getCurrentGifStatus()
+    
 
 @bot.event
 async def on_message(message):
@@ -400,6 +438,7 @@ async def leaderboard(ctx, action: str = None):
         await ctx.send("Mention the particular command, the leaderboard of which you wanna check.")
         return
     action = action.lower()
+    
     validactions = list(gif_actions.gifs.keys()) + ["rps_wins", "pop_wins", "firefly_wins"]
     if not (action in validactions):
         await ctx.send(f"'{action}' is not a valid leaderboard option, valid ones are: {', '.join(validactions)}.")
@@ -416,7 +455,13 @@ async def old_perform_action(ctx, action, user):
         await ctx.send("Unknown action!")
         return
 
-    acttext, actgif = gif_actions.action_message(action)
+    await _getCurrentGifStatus()
+    acttext, actgif, next = gif_actions.action_message(action, currentGif)
+    updateGifStatus(
+    int(currentGif["startingPoint"])+1 if int(currentGif["startingPoint"]) <= 49 else 0 ,
+    currentGif["currentPage"] if int(currentGif["startingPoint"]) <= 49 else currentGif["nextPage"],
+    next  # Assuming `next` refers to this
+)
     acttext = acttext.format(user=ctx.author.display_name, user2=user.display_name)
     update_count(action, str(ctx.author.id), 1)
     em = discord.Embed(title=acttext, description="")
@@ -451,7 +496,13 @@ async def perform_action(ctx, action, user):
         await ctx.send("Unknown action!")
         return
 
-    acttext, actgif = gif_actions.action_message(action)
+    await _getCurrentGifStatus()
+    acttext, actgif, next = gif_actions.action_message(action, currentGif)
+    updateGifStatus(
+    int(currentGif["startingPoint"])+1 if int(currentGif["startingPoint"]) <= 49 else 0 ,
+    currentGif["currentPage"] if int(currentGif["startingPoint"]) <= 49 else currentGif["nextPage"],
+    next # Assuming `next` refers to this
+    )
     acttext = acttext.format(user=ctx.author.display_name, user2=user.display_name)
     update_count(action, str(ctx.author.id))
     update_count_user(action, str(ctx.author.id), str(user.id))
