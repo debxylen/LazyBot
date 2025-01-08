@@ -325,7 +325,7 @@ async def check_birthdays():
     birthdays = client["miscellaneous"]["birthdays"].find({"day": today})
 
     # Get the announcement channel
-    channel = bot.get_channel(1312083452077801524)  ######################################################################################
+    channel = bot.get_channel(1298215054633861124)
 
     # Send birthday wishes
     for user in birthdays:
