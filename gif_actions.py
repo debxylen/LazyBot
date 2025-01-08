@@ -1,3 +1,4 @@
+from tenor import get_gif
 import random
 
 gifs = {
@@ -222,8 +223,8 @@ messages = {
     ],
 }
 
-# Function to generate random text and gif
-def action_message(action):
+# Function to get random text and gif from predefined gifs
+def defined_action_message(action):
     action = action.lower()
     if action not in messages or action not in gifs:
         raise ValueError("Unknown action.")
@@ -231,4 +232,13 @@ def action_message(action):
     gif = random.choice(gifs[action])
     return text, gif
 
+
+# Function to get random text and gif from tenor api
+def action_message(action):
+    action = action.lower()
+    if action not in messages or action not in gifs:
+        raise ValueError("Unknown action.")
+    text = random.choice(messages[action])
+    gif = get_gif(['anime', action])
+    return text, gif
 

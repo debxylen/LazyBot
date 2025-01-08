@@ -456,102 +456,211 @@ async def perform_action(ctx, action, user):
 
 @bot.command(name="hug")
 async def hug(ctx, user: discord.Member = None):
-    if user == None:
-        await ctx.send("You need to mention the user you want to hug.")
+    if user: # if arg
+        await perform_action(ctx, "hug", user)
         return
-    await perform_action(ctx, "hug", user)
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to hug.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "hug", user)
+        return
 
 @bot.command(name="pat")
 async def pat(ctx, user: discord.Member = None):
-    if user == None:
-        await ctx.send("You need to mention the user you want to pat.")
+    if user: # if arg
+        await perform_action(ctx, "pat", user)
         return
-    await perform_action(ctx, "pat", user)
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to pat.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "pat", user)
+        return
 
 @bot.command(name="poke")
 async def poke(ctx, user: discord.Member = None):
-    if user == None:
-        await ctx.send("You need to mention the user you want to poke.")
+    if user: # if arg
+        await perform_action(ctx, "poke", user)
         return
-    await perform_action(ctx, "poke", user)
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to poke.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "poke", user)
+        return
 
 @bot.command(name="punch")
 async def punch(ctx, user: discord.Member = None):
-    if user == None:
-        await ctx.send("You need to mention the user you want to punch.")
+    if user: # if arg
+        await perform_action(ctx, "punch", user)
         return
-    await perform_action(ctx, "punch", user)
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to punch.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "punch", user)
+        return
 
 @bot.command(name="bite")
 async def bite(ctx, user: discord.Member = None):
-    if user == None:
-        await ctx.send("You need to mention the user you want to bite.")
+    if user: # if arg
+        await perform_action(ctx, "bite", user)
         return
-    await perform_action(ctx, "bite", user)
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to bite.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "bite", user)
+        return
 
 @bot.command(name="bonk")
 async def bonk(ctx, user: discord.Member = None):
-    if user == None:
-        await ctx.send("You need to mention the user you want to bonk.")
+    if user: # if arg
+        await perform_action(ctx, "bonk", user)
         return
-    await perform_action(ctx, "bonk", user)
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to bonk.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "bonk", user)
+        return
 
 @bot.command(name="wag")
 async def wag(ctx, user: discord.Member = None):
-    if user == None:
-        await ctx.send("You need to mention the user you want to wag.")
+    if user: # if arg
+        await perform_action(ctx, "wag", user)
         return
-    await perform_action(ctx, "wag", user)
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to wag at.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "wag", user)
+        return
 
 @bot.command(name="stare")
 async def stare(ctx, user: discord.Member = None):
-    if user == None:
-        await ctx.send("You need to mention the user you want to stare at.")
+    if user: # if arg
+        await perform_action(ctx, "stare", user)
         return
-    await perform_action(ctx, "stare", user)
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to stare at.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "stare", user)
+        return
 
 @bot.command(name="wave")
 async def wave(ctx, user: discord.Member = None):
-    if user == None:
-        await ctx.send("You need to mention the user you want to wave at.")
+    if user: # if arg
+        await perform_action(ctx, "wave", user)
         return
-    await perform_action(ctx, "wave", user)
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to wave to.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "wave", user)
+        return
 
 @bot.command(name="kill")
 async def kill(ctx, user: discord.Member = None):
-    if user == None:
-        await ctx.send("You need to mention the user you want to kill.")
+    if user: # if arg
+        await perform_action(ctx, "kill", user)
         return
-    await perform_action(ctx, "kill", user)
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to kill.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "kill", user)
+        return
 
 @bot.command(name="lick")
 async def lick(ctx, user: discord.Member = None):
-    if user == None:
-        await ctx.send("You need to mention the user you want to lick.")
+    if user: # if arg
+        await perform_action(ctx, "lick", user)
         return
-    await perform_action(ctx, "lick", user)
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to lick.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "lick", user)
+        return
 
 @bot.command(name="kiss")
 async def kiss(ctx, user: discord.Member = None):
-    if user == None:
-        await ctx.send("You need to mention the user you want to kiss.")
+    if user: # if arg
+        await perform_action(ctx, "kiss", user)
         return
-    await perform_action(ctx, "kiss", user)
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to kiss.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "kiss", user)
+        return
 
 @bot.command(name="spank")
 async def spank(ctx, user: discord.Member = None):
-    if user == None:
-        await ctx.send("You need to mention the user you want to spank.")
+    if user: # if arg
+        await perform_action(ctx, "spank", user)
         return
-    await perform_action(ctx, "spank", user)
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to spank.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "spank", user)
+        return
 
 @bot.command(name="kick")
 async def kick(ctx, user: discord.Member = None):
-    if user == None:
-        await ctx.send("You need to mention the user you want to kick")
+    if user: # if arg
+        await perform_action(ctx, "kick", user)
         return
-    await perform_action(ctx, "kick", user)
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to kick.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "kick", user)
+        return
 
+@bot.command(name="stab")
+async def stab(ctx, user: discord.Member = None):
+    if user: # if arg
+        await perform_action(ctx, "stab", user)
+        return
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to stab.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "stab", user)
+        return
+
+@bot.command(name="slap")
+async def slap(ctx, user: discord.Member = None):
+    if user: # if arg
+        await perform_action(ctx, "slap", user)
+        return
+    if not ctx.message.reference: # if no user arg and no reply
+        await ctx.send("You need to mention or reply to the user you want to slap.")
+        return
+    if ctx.message.reference: # if no arg but reply
+        user = ctx.message.reference.resolved.author
+        await perform_action(ctx, "slap", user)
+        return
 
 # self explanatory
 bot.run(BOT_TOKEN)
