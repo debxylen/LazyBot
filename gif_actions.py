@@ -149,6 +149,30 @@ messages = {
         "A perfectly executed kick! {user} hit {user2} squarely.",
         "{user} went all out and kicked {user2}. Ouch!",
     ],
+    "stab": [
+        "{user} stabbed {user2} with a dramatic flair. Ouch!",
+        "{user} sneakily stabbed {user2} in the back. Watch out!",
+        "{user} lunged at {user2} with a sharp stab. Intense!",
+        "{user} stabbed {user2} in the heart. That must've hurt!",
+        "{user} stabbed {user2} lightly. A playful poke!",
+        "{user} delivered a precise stab to {user2}. Ninja style!",
+        "{user} went full berserker and stabbed {user2}!",
+        "{user} stabbed {user2}. Drama!",
+        "{user} clumsily stabbed {user2}. That was awkward.",
+        "{user} stabbed {user2}. Barely noticeable, huh?"
+    ],
+    "slap": [
+        "{user} slapped {user2} across the face. That echoed!",
+        "{user} gave {user2} a playful slap.",
+        "{user} delivered a powerful slap to {user2}. Epic!",
+        "{user} slapped {user2} out of nowhere. Shocked!",
+        "{user} gave {user2} a light slap. Barely felt it.",
+        "{user} slapped {user2} so hard it left a red mark!",
+        "{user} slapped {user2} with a dramatic twirl. Theatrics!",
+        "{user} unleashed a barrage of slaps on {user2}. Flurry mode!",
+        "{user} slapped {user2}.",
+        "{user} gave {user2} a gentle slap.",
+    ],
 }
 
 # Function to get random text and gif from predefined gifs
