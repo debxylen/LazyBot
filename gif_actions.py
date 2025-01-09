@@ -4,6 +4,8 @@ from predefined_gifs import gifs
 
 _last_gif = None
 
+blacklist = ["https://media.tenor.com/QNu6MujRvEQAAAAC/tapa-slap.gif"]
+
 # Action messages dictionary
 messages = {
     "pat": [
@@ -194,7 +196,7 @@ def action_message(action):
         raise ValueError("Unknown action.")
     text = random.choice(messages[action])
     gif = get_gif(['anime', action])
-    while gif == _last_gif: # keep getting another gif until its different
+    while (gif == _last_gif) or (gif in blacklist): # keep getting another gif until its different
         gif = get_gif(['anime', action])
     _last_gif = gif
     return text, gif
