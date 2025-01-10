@@ -18,6 +18,7 @@ from pymongo import MongoClient
 import os
 import time
 from cmdhelp import HelpCommand
+from gifapproval import GifApprovalCog
 from firefly import Firefly
 import gif_actions
 from dotenv import load_dotenv
@@ -66,6 +67,7 @@ async def on_ready():
 
     await bot.add_cog(Firefly(bot, client))
     await bot.add_cog(HelpCommand(bot))
+    await bot.add_cog(GifApprovalCog(bot, client))
     # Start the birthday checker when the bot runs
     check_birthdays.start()
     _biet = time.time()
