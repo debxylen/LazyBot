@@ -449,28 +449,6 @@ async def leaderboard(ctx, action: str = None):
     except Exception as e:
         await ctx.send(f"Error fetching leaderboard: {str(e)}")
 
-
-async def old_perform_action(ctx, action, user):
-    if action not in gif_actions.gifs or action not in gif_actions.messages:
-        await ctx.send("Unknown action!")
-        return
-
-    await _getCurrentGifStatus()
-    acttext, actgif, next = gif_actions.action_message(action, currentGif)
-    updateGifStatus(
-    int(currentGif["startingPoint"])+1 if int(currentGif["startingPoint"]) <= 49 else 0 ,
-    currentGif["currentPage"] if int(currentGif["startingPoint"]) <= 49 else currentGif["nextPage"],
-    next  # Assuming `next` refers to this
-)
-    acttext = acttext.format(user=ctx.author.display_name, user2=user.display_name)
-    update_count(action, str(ctx.author.id), 1)
-    em = discord.Embed(title=acttext, description="")
-    em.set_image(url=actgif)
-    actcount = client["CommandCounts"][action.lower()].find_one({"username": str(ctx.author.id)})['count']
-    em.set_footer(text=f"That's {actcount} {action}s!")
-    await ctx.message.channel.send(embed=em)
-
-
 # Function to update or create entry in the collection
 def update_count_user(collection_name: str, username: str, user2: str, count: int = 1):
     """
@@ -480,7 +458,7 @@ def update_count_user(collection_name: str, username: str, user2: str, count: in
     :param username: The username whose count to increment.
     :param count: The number to increment (default is 1).
     """
-    db = client["GifActions"]  # Replace <dbname> with your database name
+    db = client["GifActions"] 
     collection = db[collection_name]
 
     result = collection.update_one(
@@ -514,6 +492,8 @@ async def perform_action(ctx, action, user):
     elif int(actcount) > 1:
         em.set_footer(text=f"That's {actcount} {action}s!")
     await ctx.message.channel.send(embed=em)
+
+# note: GifActions is for gif pairs , like 2 hugs from A to B. CommandCounts is for total, like total 4 hugs ever sent from A to anyone.
 
 @bot.command(name="hug")
 async def hug(ctx, user: discord.Member = None):

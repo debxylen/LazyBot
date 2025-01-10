@@ -3,6 +3,7 @@ import random
 from predefined_gifs import gifs
 
 _last_gif = None
+blacklist = ["https://media.tenor.com/QNu6MujRvEQAAAAC/tapa-slap.gif"]
 
 # Action messages dictionary
 messages = {
@@ -193,9 +194,9 @@ def action_message(action, currentGif):
     if action not in messages or action not in gifs:
         raise ValueError("Unknown action.")
     text = random.choice(messages[action])
+    feature/add-pagination-to-gif-fetching
 
     gif , next = get_gif(action, 100, currentGif)
 
     return text, gif, next
-
 

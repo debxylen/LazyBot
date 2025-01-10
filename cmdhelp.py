@@ -25,6 +25,8 @@ class Button(discord.ui.Button):
             embed.add_field(name="lick", value="Lick your target.", inline=False)
             embed.add_field(name="spank", value="Spank someone for fun.", inline=False)
             embed.add_field(name="wave", value="Wave to everyone!", inline=False)
+            embed.add_field(name="stab", value="Stab an innocent soul.", inline=False)
+            embed.add_field(name="slap", value="Smack someone's face.", inline=False)
             await interaction.response.edit_message(embed=embed, view=view)
 
         elif self.custom_id == "games":
