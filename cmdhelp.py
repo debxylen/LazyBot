@@ -67,9 +67,10 @@ class HelpCommand(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="help")
+    @commands.hybrid_command(name='help', with_app_command=True)
     async def help(self, ctx):
         global view
+        helpmsg = await ctx.send('Please wait...')
         # Create a main embed with buttons for categories
         embed = discord.Embed(
             title="Help Menu",
@@ -89,4 +90,5 @@ class HelpCommand(commands.Cog):
         for button in buttons:
             view.add_item(button)
         
-        await ctx.send(embed=embed, view=view)
+        await helpmsg.edit(content='', embed=embed, view=view)
+	

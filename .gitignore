@@ -1,6 +1,11 @@
 # MAIN GITIGNORE
 test.py
 archive
+* - copy.*
+Include
+Lib
+Scripts
+pyvenv.cfg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

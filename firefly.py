@@ -30,7 +30,7 @@ class Firefly(commands.Cog):
         client = mongoclient
 
     @commands.cooldown(1, 5, commands.BucketType.user)
-    @commands.command()
+    @commands.hybrid_command(name='firefly', with_app_command=True)
     async def firefly(self, ctx):
         """Firefly catching game command."""
 
