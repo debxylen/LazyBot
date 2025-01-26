@@ -303,17 +303,17 @@ async def bot_rps(ctx):
             button.disabled = True
         if "You win" in result:
             try:
-                await update_rps_stats(ctx.message.author, bot)
-                update_count('rps_wins', str(ctx.message.author.id))
+                await update_rps_stats(ctx.author, bot.user)
+                update_count('rps_wins', str(ctx.author.id))
             except:
                 print(traceback.format_exc())
             winner_text = f"{interaction.user.mention} wins!"
         elif "You lose" in result:
             winner_text = f"I win!"
-            await update_rps_stats(bot, ctx.message.author)
+            await update_rps_stats(bot.user, ctx.author)
         else:
             winner_text = "It's a tie!"
-            await update_tie(ctx.author, opponent)
+            await update_tie(ctx.author, bot.user)
 
         await interaction.message.edit(content=winner_text, view=view)
 
