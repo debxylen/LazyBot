@@ -332,10 +332,10 @@ async def bot_rps(ctx):
 @commands.cooldown(1, 5, commands.BucketType.user)
 @bot.hybrid_command(name='rps', with_app_command=True)
 async def rps(ctx, opponent: discord.Member):
-    if opponent == ctx.author:
+    if opponent.id == ctx.author.id:
         await ctx.send("You can't challenge yourself!", delete_after=5)
         return
-    elif opponent == bot:
+    elif opponent.id == bot.id:
         await bot_rps(ctx)
         return
 
@@ -499,14 +499,21 @@ challenging_lines = [
 
 @bot.hybrid_command(name="rps_lb", with_app_command=True)
 async def rps_lb(ctx, opponent: discord.Member):
-    if opponent == ctx.author:
+    if opponent.id == ctx.author.id:
         await ctx.send(embed=discord.Embed(title="That's you.", description="The competition is always with yourself, but you can't play against yourself."))
         return
     await ctx.send('Fetching leaderboard data...')
     # Get the leaderboard stats
     leaderboard = await get_rps_leaderboard(ctx.author, opponent)
+    
+    if opponent.id == bot.id:
+        challtext = f"No data found.\n\n." + random.choice(challenging_lines).format('{0}', opponent.display_name).replace('**{0}**: ','').replace('**{0}**', '')
+        oppname = 'me'
+    else:
+        challtext = f"No data found, Challenge the user to store data.\n\n{random.choice(challenging_lines).format(ctx.author.display_name, opponent.display_name)}"
+        oppname = opponent.display_name
     if leaderboard == None:
-        await ctx.send(embed=discord.Embed(title=f"There has been no RPS match between you and {opponent.display_name}...", description = f"No data found, Challenge the user to store data.\n\n{random.choice(challenging_lines).format(ctx.author.display_name, opponent.display_name)}"))
+        await ctx.send(embed=discord.Embed(title=f"There has been no RPS match between you and {oppname}...", description = challtext))
         return
     # Create the embed
     embed = discord.Embed(
