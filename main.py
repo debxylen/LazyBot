@@ -303,14 +303,14 @@ async def bot_rps(ctx):
             button.disabled = True
         if "You win" in result:
             try:
-                await update_rps_stats(str(ctx.message.author), str(bot))
+                await update_rps_stats(ctx.message.author, bot)
                 update_count('rps_wins', str(ctx.message.author.id))
             except:
                 print(traceback.format_exc())
             winner_text = f"{interaction.user.mention} wins!"
         elif "You lose" in result:
             winner_text = f"I win!"
-            await update_rps_stats(str(bot), str(ctx.message.author))
+            await update_rps_stats(bot, ctx.message.author)
         else:
             winner_text = "It's a tie!"
             await update_tie(ctx.author, opponent)
@@ -335,7 +335,7 @@ async def rps(ctx, opponent: discord.Member):
     if opponent.id == ctx.author.id:
         await ctx.send("You can't challenge yourself!", delete_after=5)
         return
-    elif opponent.id == bot.id:
+    elif opponent.id == bot.user.id:
         await bot_rps(ctx)
         return
 
@@ -506,8 +506,8 @@ async def rps_lb(ctx, opponent: discord.Member):
     # Get the leaderboard stats
     leaderboard = await get_rps_leaderboard(ctx.author, opponent)
     
-    if opponent.id == bot.id:
-        challtext = f"No data found.\n\n." + random.choice(challenging_lines).format('{0}', opponent.display_name).replace('**{0}**: ','').replace('**{0}**', '')
+    if opponent.id == bot.user.id:
+        challtext = f"No data found.\n\n" + random.choice(challenging_lines).format('{0}', ctx.author.display_name).replace('**{0}**: ','').replace('**{0}**', '')
         oppname = 'me'
     else:
         challtext = f"No data found, Challenge the user to store data.\n\n{random.choice(challenging_lines).format(ctx.author.display_name, opponent.display_name)}"
