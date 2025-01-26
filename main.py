@@ -252,10 +252,91 @@ def determine_winner(choice1, choice2, p1, p2):
         return f"{p1.mention} wins!", p1, p2
     return f"{p2.mention} wins!", p2, p1
 
+async def bot_rps(ctx):
+    # Choices for RPS
+    choices = ["🪨", "📄", "✂️"]
+    bot_choice = random.choice(choices)  # Bot randomly selects one choice
+
+    # Define the buttons for each choice
+    rock_button = discord.ui.Button(emoji="🪨", custom_id="rock")
+    paper_button = discord.ui.Button(emoji="📄", custom_id="paper")
+    scissors_button = discord.ui.Button(emoji="✂️", custom_id="scissors")
+
+    # Define the result calculation function
+    async def on_button_click(interaction, button):
+        user_choice = button.custom_id
+        if user_choice == "rock":
+            user_choice_emoji = "🪨"
+        elif user_choice == "paper":
+            user_choice_emoji = "📄"
+        else:
+            user_choice_emoji = "✂️"
+
+        # Determine the result of the game
+        if user_choice == "rock":
+            if bot_choice == "🪨":
+                result = "It's a tie! Both chose 🪨"
+            elif bot_choice == "📄":
+                result = "You lose! Paper beats rock."
+            else:
+                result = "You win! Rock beats scissors."
+        elif user_choice == "paper":
+            if bot_choice == "🪨":
+                result = "You win! Paper beats rock."
+            elif bot_choice == "📄":
+                result = "It's a tie! Both chose 📄"
+            else:
+                result = "You lose! Scissors beats paper."
+        else:  # user_choice == "scissors"
+            if bot_choice == "🪨":
+                result = "You lose! Rock beats scissors."
+            elif bot_choice == "📄":
+                result = "You win! Scissors beats paper."
+            else:
+                result = "It's a tie! Both chose ✂️"
+
+        # Send the result and disable the buttons
+        await interaction.response.send_message(f"You chose {user_choice_emoji}, and I chose {bot_choice}.\n{result}", ephemeral=True)
+
+        # Disable buttons and update the view
+        for button in view.children:
+            button.disabled = True
+        if "You win" in result:
+            try:
+                await update_rps_stats(str(ctx.message.author), str(bot))
+                update_count('rps_wins', str(ctx.message.author.id))
+            except:
+                print(traceback.format_exc())
+            winner_text = f"{interaction.user.mention} wins!"
+        elif "You lose" in result:
+            winner_text = f"I win!"
+            await update_rps_stats(str(bot), str(ctx.message.author))
+        else:
+            winner_text = "It's a tie!"
+            await update_tie(ctx.author, opponent)
+
+        await interaction.message.edit(content=winner_text, view=view)
+
+    # Add the on_click function to buttons
+    rock_button.callback = partial(on_button_click, button=rock_button)
+    paper_button.callback = partial(on_button_click, button=paper_button)
+    scissors_button.callback = partial(on_button_click, button=scissors_button)
+
+    # Add buttons to a view and send the message
+    view = discord.ui.View()
+    view.add_item(rock_button)
+    view.add_item(paper_button)
+    view.add_item(scissors_button)
+    await ctx.send("Choose your move!", view=view)
+
+@commands.cooldown(1, 5, commands.BucketType.user)
 @bot.hybrid_command(name='rps', with_app_command=True)
 async def rps(ctx, opponent: discord.Member):
     if opponent == ctx.author:
         await ctx.send("You can't challenge yourself!", delete_after=5)
+        return
+    elif opponent == bot:
+        await bot_rps(ctx)
         return
 
     # Create buttons for both players
