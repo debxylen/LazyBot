@@ -25,7 +25,6 @@ from cmdhelp import HelpCommand
 from gifapproval import GifApprovalCog
 from firefly import Firefly
 import gif_actions
-from hybrid_flags import *
 from dotenv import load_dotenv
 
 # Load environment variables from .env file (for bot token)
@@ -419,6 +418,9 @@ challenging_lines = [
 
 @bot.hybrid_command(name="rps_lb", with_app_command=True)
 async def rps_lb(ctx, opponent: discord.Member):
+    if opponent == ctx.author:
+        await ctx.send(embed=discord.Embed(title="That's you.", description="The competition is always with yourself, but you can't play against yourself."))
+        return
     await ctx.send('Fetching leaderboard data...')
     # Get the leaderboard stats
     leaderboard = await get_rps_leaderboard(ctx.author, opponent)
